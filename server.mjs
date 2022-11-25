@@ -3,9 +3,11 @@
 import { readFileSync } from "fs";
 import MDBReader from "mdb-reader";
 import express from 'express';
+import cors from 'cors';
 
 const app = express();
-const port = 3000;
+app.use(cors());
+const port = 5000;
 
 // const filePath = "C:/Program Files (x86)/Masibus Products/SMART/data/Network/Network_001.mdb";
 const filePath = "./data/Network_001.mdb";
@@ -23,6 +25,7 @@ app.get('/reactor1/latest', (req, res) => {
     const TI100_PV = reader.getTable('Tag000000003').getData();
     const TI100_SP = reader.getTable('Tag000000004').getData();
 
+    // Latest sensor values
     const reactor1Res = {};
     reactor1Res.DTime = PH100.at(-1).DTime;
     reactor1Res.PH100 = PH100.at(-1).PV;
@@ -30,9 +33,13 @@ app.get('/reactor1/latest', (req, res) => {
     reactor1Res.TI100_PV = TI100_PV.at(-1).PV;
     reactor1Res.TI100_SP = TI100_SP.at(-1).PV;
 
-
-    console.log(reactor1Res);
-    res.send(reactor1Res)
+    // Build the response object, with list of sensors
+    const Response = {
+      schema : ['DTime', 'PH100', 'PI100', 'TI100_PV', 'TI100_SP'],
+      values : reactor1Res
+    }
+    console.log(Response);
+    res.send(Response);
   }
 )
 
@@ -55,8 +62,13 @@ app.get('/reactor2/latest', (req, res) => {
     reactor2Res.TI200_SP = TI200_SP.at(-1).PV;
 
 
-    console.log(reactor2Res);
-    res.send(reactor2Res)
+    // Build the response object, with list of sensors
+    const Response = {
+      schema : ['DTime', 'PH200', 'PI200', 'TI200_PV', 'TI200_SP'],
+      values : reactor2Res
+    }
+    console.log(Response);
+    res.send(Response);
   }
 )
 
@@ -79,8 +91,13 @@ app.get('/reactor3/latest', (req, res) => {
     reactor3Res.TI300_SP = TI300_SP.at(-1).PV;
 
 
-    console.log(reactor3Res);
-    res.send(reactor3Res)
+    // Build the response object, with list of sensors
+    const Response = {
+      schema : ['DTime', 'PH300', 'PI300', 'TI300_PV', 'TI300_SP'],
+      values : reactor3Res
+    }
+    console.log(Response);
+    res.send(Response);
   }
 )
 
@@ -103,8 +120,13 @@ app.get('/reactor4/latest', (req, res) => {
     reactor4Res.TI400_SP = TI400_SP.at(-1).PV;
 
 
-    console.log(reactor4Res);
-    res.send(reactor4Res)
+    // Build the response object, with list of sensors
+    const Response = {
+      schema : ['DTime', 'PH400', 'PI400', 'TI400_PV', 'TI400_SP'],
+      values : reactor4Res
+    }
+    console.log(Response);
+    res.send(Response);
   }
 )
 
@@ -144,8 +166,13 @@ app.get('/reactor1/batch', (req, res) => {
     reactor1Res.push(curr);
   }
   
-  console.log(reactor1Res);
-  res.send(reactor1Res)
+  // Build the response object, with list of sensors
+  const Response = {
+    schema : ['DTime', 'PH100', 'PI100', 'TI100_PV', 'TI100_SP'],
+    values : reactor1Res
+  }
+  console.log(Response);
+  res.send(Response);
 })
 
 // Reactor 2
@@ -180,8 +207,13 @@ app.get('/reactor2/batch', (req, res) => {
     reactor2Res.push(curr);
   }
   
-  console.log(reactor2Res);
-  res.send(reactor2Res)
+  // Build the response object, with list of sensors
+  const Response = {
+    schema : ['DTime', 'PH200', 'PI200', 'TI200_PV', 'TI200_SP'],
+    values : reactor2Res
+  }
+  console.log(Response);
+  res.send(Response);
 })
 
 // Reactor 3
@@ -191,8 +223,8 @@ app.get('/reactor3/batch', (req, res) => {
   
   const buffer = readFileSync(filePath);
   const reader = new MDBReader(buffer);
-
-  let PH300 = reader.getTable('Tag000000009').getData();
+  
+  const PH300 = reader.getTable('Tag000000010').getData();
   const PI300 = reader.getTable('Tag000000010').getData();
   const TI300_PV = reader.getTable('Tag000000011').getData();
   const TI300_SP = reader.getTable('Tag000000012').getData();
@@ -216,8 +248,13 @@ app.get('/reactor3/batch', (req, res) => {
     reactor3Res.push(curr);
   }
   
-  console.log(reactor3Res);
-  res.send(reactor3Res)
+  // Build the response object, with list of sensors
+  const Response = {
+    schema : ['DTime', 'PH300', 'PI300', 'TI300_PV', 'TI300_SP'],
+    values : reactor3Res
+  }
+  console.log(Response);
+  res.send(Response);
 })
 
 // Reactor 4
@@ -252,12 +289,22 @@ app.get('/reactor4/batch', (req, res) => {
     reactor4Res.push(curr);
   }
   
-  console.log(reactor4Res);
-  res.send(reactor4Res)
+  // Build the response object, with list of sensors
+  const Response = {
+    schema : ['DTime', 'PH400', 'PI400', 'TI400_PV', 'TI400_SP'],
+    values : reactor4Res
+  }
+  console.log(Response);
+  res.send(Response);
 })
 
+// Default route: for displaying errors
+app.get("*", (req, res) => {
+  res.status(404);
+  res.send("PAGE NOT FOUND. \nCommon errors: Wrong reactor number.");
+});
 
 // ########## Listen Indefinately ###############
 app.listen(port, () =>{
-    console.log("Listening on port 3000.");
+    console.log("Listening on port 5000.");
 })
