@@ -38,7 +38,7 @@ app.get('/reactor1/latest', (req, res) => {
       schema : ['DTime', 'PH100', 'PI100', 'TI100_PV', 'TI100_SP'],
       values : reactor1Res
     }
-    console.log(Response);
+    // console.log(Response);
     res.send(Response);
   }
 )
@@ -67,7 +67,7 @@ app.get('/reactor2/latest', (req, res) => {
       schema : ['DTime', 'PH200', 'PI200', 'TI200_PV', 'TI200_SP'],
       values : reactor2Res
     }
-    console.log(Response);
+    // console.log(Response);
     res.send(Response);
   }
 )
@@ -96,7 +96,7 @@ app.get('/reactor3/latest', (req, res) => {
       schema : ['DTime', 'PH300', 'PI300', 'TI300_PV', 'TI300_SP'],
       values : reactor3Res
     }
-    console.log(Response);
+    // console.log(Response);
     res.send(Response);
   }
 )
@@ -125,7 +125,7 @@ app.get('/reactor4/latest', (req, res) => {
       schema : ['DTime', 'PH400', 'PI400', 'TI400_PV', 'TI400_SP'],
       values : reactor4Res
     }
-    console.log(Response);
+    // console.log(Response);
     res.send(Response);
   }
 )
@@ -149,9 +149,8 @@ app.get('/reactor1/batch', (req, res) => {
 
   const reactor1Res = [];
   let dbSize = PH100.length;
-  if(batchSize >dbSize|| batchSize===undefined){
+  if(batchSize >dbSize|| batchSize===undefined || batchSize<=0){
     batchSize = dbSize
-    
   }
 
   for(let i = 1; i<=batchSize; i++){
@@ -171,7 +170,7 @@ app.get('/reactor1/batch', (req, res) => {
     schema : ['DTime', 'PH100', 'PI100', 'TI100_PV', 'TI100_SP'],
     values : reactor1Res
   }
-  console.log(Response);
+  // console.log(Response);
   res.send(Response);
 })
 
@@ -190,9 +189,8 @@ app.get('/reactor2/batch', (req, res) => {
 
   const reactor2Res = [];
   let dbSize = PH200.length;
-  if(batchSize >dbSize|| batchSize===undefined){
+  if(batchSize >dbSize|| batchSize===undefined || batchSize<=0){
     batchSize = dbSize
-    
   }
 
   for(let i = 1; i<=batchSize; i++){
@@ -212,7 +210,7 @@ app.get('/reactor2/batch', (req, res) => {
     schema : ['DTime', 'PH200', 'PI200', 'TI200_PV', 'TI200_SP'],
     values : reactor2Res
   }
-  console.log(Response);
+  // console.log(Response);
   res.send(Response);
 })
 
@@ -231,7 +229,7 @@ app.get('/reactor3/batch', (req, res) => {
 
   const reactor3Res = [];
   let dbSize = PH300.length;
-  if(batchSize >dbSize|| batchSize===undefined){
+  if(batchSize >dbSize|| batchSize===undefined || batchSize<=0){
     batchSize = dbSize
     
   }
@@ -253,7 +251,7 @@ app.get('/reactor3/batch', (req, res) => {
     schema : ['DTime', 'PH300', 'PI300', 'TI300_PV', 'TI300_SP'],
     values : reactor3Res
   }
-  console.log(Response);
+  // console.log(Response);
   res.send(Response);
 })
 
@@ -272,7 +270,7 @@ app.get('/reactor4/batch', (req, res) => {
 
   const reactor4Res = [];
   let dbSize = PH400.length;
-  if(batchSize >dbSize|| batchSize===undefined){
+  if(batchSize >dbSize|| batchSize===undefined || batchSize<=0){
     batchSize = dbSize
     
   }
@@ -294,7 +292,7 @@ app.get('/reactor4/batch', (req, res) => {
     schema : ['DTime', 'PH400', 'PI400', 'TI400_PV', 'TI400_SP'],
     values : reactor4Res
   }
-  console.log(Response);
+  // console.log(Response);
   res.send(Response);
 })
 
@@ -306,5 +304,5 @@ app.get("*", (req, res) => {
 
 // ########## Listen Indefinately ###############
 app.listen(port, () =>{
-    console.log("Listening on port 5000.");
+    // console.log("Listening on port 5000.");
 })
